@@ -1,0 +1,28 @@
+# Disalin otomatis ke dist/ saat `npm run build`.
+#
+# Aplikasi memakai routing sisi klien (React Router). Tanpa aturan ini,
+# membuka /SIGAP-Kronis/dist/ranking langsung atau menekan refresh akan
+# menghasilkan 404 dari Apache — karena berkas dengan nama itu memang tidak ada.
+# Semua path yang bukan berkas nyata diarahkan ke index.html.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /SIGAP-Kronis/dist/
+
+  # Berkas & direktori yang benar-benar ada tetap dilayani apa adanya.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Aset ber-hash boleh di-cache lama; index.html jangan.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>

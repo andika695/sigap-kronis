@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+/* ─── Token desain ────────────────────────────────────────────────────── */
+@theme {
+  --color-brand-50: #eef7fa;
+  --color-brand-100: #d5eaf2;
+  --color-brand-200: #aed6e6;
+  --color-brand-300: #7bb9d3;
+  --color-brand-400: #4494b8;
+  --color-brand-500: #1f7c9e;
+  --color-brand-600: #0f5c7a;
+  --color-brand-700: #0d4d67;
+  --color-brand-800: #0a3d52;
+  --color-brand-900: #062d3d;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+/* ─── Dasar ───────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Teks dibuat cukup besar karena sebagian pengguna (kader) bukan pengguna
+   teknologi yang terbiasa. */
+:where(h1, h2, h3) {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Fokus keyboard yang konsisten & terlihat jelas untuk aksesibilitas. */
+:focus-visible {
+  outline: 2px solid #0f5c7a;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Sembunyikan spinner input number — nilai klinis diketik, bukan di-scroll,
+   agar tidak berubah tak sengaja saat menggulir halaman. */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* ─── Animasi ─────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease both; }
+.animate-slide-up { animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; background-clip: content-box; }
+}
+
+/* Jangan cetak elemen navigasi pada laporan. */
+@media print {
+  .no-print { display: none !important; }
+}

@@ -1,0 +1,32 @@
+# SIGAP-Kronis — hanya container aplikasi.
+# MySQL & phpMyAdmin sudah berjalan sendiri di network `mybridge`.
+#
+# Jalankan : docker compose up -d --build
+# Buka     : http://localhost:8021
+
+services:
+  app:
+    build: .
+    image: sigap-kronis:latest
+    container_name: sigap_kronis
+    restart: unless-stopped
+
+    ports:
+      - "8021:80"
+
+    environment:
+      # Nama container MySQL di network mybridge — jadi hostname-nya.
+      SIGAP_DB_HOST: crypmerce_db
+      SIGAP_DB_PORT: "3306"
+      SIGAP_DB_NAME: sigap_kronis
+      # Kredensial diambil dari berkas .env (lihat .env.example).
+      SIGAP_DB_USER: ${SIGAP_DB_USER:-root}
+      SIGAP_DB_PASS: ${SIGAP_DB_PASS:-}
+
+    networks:
+      - mybridge
+
+networks:
+  # Sudah dibuat di luar compose ini — jangan biarkan compose membuat ulang.
+  mybridge:
+    external: true

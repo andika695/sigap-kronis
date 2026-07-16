@@ -1,0 +1,7 @@
+node_modules/
+dist/
+
+# Kredensial basis data — jangan pernah ikut ter-commit.
+.env
+
+*.log

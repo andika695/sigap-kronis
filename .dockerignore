@@ -1,0 +1,9 @@
+# Jangan kirim berkas ini ke build context — image jadi kecil & cache awet.
+node_modules
+dist
+.git
+.gitignore
+.env
+*.log
+pnpm-lock.yaml
+SIGAP-Kronis_Slide_AHP-Autentik.pptx

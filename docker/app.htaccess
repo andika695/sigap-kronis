@@ -1,0 +1,29 @@
+# Versi Docker dari public/.htaccess — dilayani dari root, bukan
+# /SIGAP-Kronis/dist/. Ditimpakan ke /var/www/html/.htaccess saat build image.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # /api ditangani api/.htaccess sendiri — jangan ditelan fallback SPA di bawah.
+  RewriteRule ^api($|/) - [L]
+
+  # Berkas & direktori yang benar-benar ada tetap dilayani apa adanya.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Sisanya milik React Router: /app/ranking dkk tidak punya berkas fisik,
+  # jadi tanpa aturan ini refresh halaman akan 404.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Aset ber-hash boleh di-cache lama; index.html jangan.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>

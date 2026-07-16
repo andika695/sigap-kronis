@@ -1,0 +1,13 @@
+# Arahkan seluruh request /api/* ke front controller.
+RewriteEngine On
+RewriteBase /SIGAP-Kronis/api/
+
+# Berkas / direktori yang benar-benar ada tetap dilayani apa adanya.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^ index.php [QSA,L]
+
+# Jangan tampilkan detail error PHP ke klien.
+php_flag display_errors off
